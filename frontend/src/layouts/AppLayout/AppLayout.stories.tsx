@@ -5,17 +5,7 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { AppLayout } from './AppLayout'
 import { authReducer } from '../../features/auth/authSlice'
 import { anunciosReducer } from '../../features/anuncios/anunciosSlice'
-import type { UsuarioLogado } from '../../types'
-
-const usuario: UsuarioLogado = {
-    id: 1,
-    nome: 'João Antônio',
-    email: 'joao@academico.ifpb.edu.br',
-    curso: { id: 1, nome: 'Análise e Desenvolvimento de Sistemas' },
-    telefone: null,
-    fotoUrl: null,
-    papel: 'estudante',
-}
+import { usuarioEduardo } from '../../stories/fixtures'
 
 const meta = {
     title: 'Layouts/AppLayout',
@@ -25,7 +15,7 @@ const meta = {
             const store = configureStore({
                 reducer: { auth: authReducer, anuncios: anunciosReducer },
                 preloadedState: {
-                    auth: { usuario, token: 'fake', carregando: false, erro: null },
+                    auth: { usuario: usuarioEduardo, token: 'fake', carregando: false, erro: null },
                     anuncios: { detalhe: null, carregando: false, erro: null },
                 },
             })
