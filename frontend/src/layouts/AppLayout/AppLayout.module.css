@@ -1,57 +1,19 @@
-.header {
-    background-color: var(--color-dark);
-    color: var(--color-surface);
-    padding: var(--space-4) var(--space-6);
+.layout {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-6);
-}
-
-.logo {
-    font-size: var(--font-size-lg);
-    font-weight: var(--font-weight-bold);
-    color: var(--color-primary-light);
-}
-
-.nav {
-    display: flex;
-    align-items: center;
-    gap: var(--space-5);
-}
-
-.navLink {
-    color: var(--color-surface);
-    font-weight: var(--font-weight-medium);
-    transition: color 0.15s ease;
-}
-
-.navLink:hover {
-    color: var(--color-primary-light);
-}
-
-.usuario {
-    color: var(--color-primary-light);
-    font-weight: var(--font-weight-medium);
-}
-
-.sair {
-    background-color: transparent;
-    color: var(--color-surface);
-    border: 1px solid var(--color-border);
-    padding: var(--space-2) var(--space-4);
-    border-radius: var(--radius-md);
-    font-weight: var(--font-weight-medium);
-    transition: background-color 0.15s ease;
-}
-
-.sair:hover {
-    background-color: var(--color-primary-hover);
-    border-color: var(--color-primary-hover);
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 .main {
+    flex: 1;
+    width: 100%;
     max-width: var(--container-max);
     margin: 0 auto;
     padding: var(--space-6);
+}
+
+@media (min-width: 768px) {
+    .main {
+        padding: var(--space-8) var(--space-5);
+    }
 }
