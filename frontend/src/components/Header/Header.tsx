@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
-import { LuLogOut, LuMenu, LuX } from 'react-icons/lu'
+import { LuLogOut, LuMenu, LuX, LuPlus } from 'react-icons/lu'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { logout } from '../../features/auth/authSlice'
 import { clearToken } from '../../api/client'
@@ -46,33 +46,34 @@ export function Header() {
           id="menu-principal"
           className={`${styles.nav} ${menuAberto ? styles.navAberta : ''}`}
         >
-          <NavLink
-            to="/vendas"
-            onClick={fecharMenu}
-            className={({ isActive }) =>
-              isActive ? `${styles.navLink} ${styles.navLinkAtivo}` : styles.navLink
-            }
-          >
-            Vendas
-          </NavLink>
-          <NavLink
-            to="/doacoes"
-            onClick={fecharMenu}
-            className={({ isActive }) =>
-              isActive ? `${styles.navLink} ${styles.navLinkAtivo}` : styles.navLink
-            }
-          >
-            Doações
-          </NavLink>
-          <NavLink
-            to="/perfil"
-            onClick={fecharMenu}
-            className={({ isActive }) =>
-              isActive ? `${styles.navLink} ${styles.navLinkAtivo}` : styles.navLink
-            }
-          >
-            Meu perfil
-          </NavLink>
+          <div className={styles.navLinks}>
+            <NavLink
+              to="/vendas"
+              onClick={fecharMenu}
+              className={({ isActive }) =>
+                isActive ? `${styles.navLink} ${styles.navLinkAtivo}` : styles.navLink
+              }
+            >
+              Vendas
+            </NavLink>
+            <NavLink
+              to="/doacoes"
+              onClick={fecharMenu}
+              className={({ isActive }) =>
+                isActive ? `${styles.navLink} ${styles.navLinkAtivo}` : styles.navLink
+              }
+            >
+              Doações
+            </NavLink>
+            <NavLink
+              to="/anuncios/novo"
+              onClick={fecharMenu}
+              className={styles.btnAnunciar}
+            >
+              <LuPlus size={18} />
+              Anunciar
+            </NavLink>
+          </div>
           <div className={styles.usuarioArea}>
             {usuario && (
               <Link to="/perfil" className={styles.perfilPill} onClick={fecharMenu}>
@@ -90,9 +91,9 @@ export function Header() {
                 <span className={styles.usuarioNome}>{usuario.nome}</span>
               </Link>
             )}
-            <button type="button" className={styles.sair} onClick={handleLogout}>
-              <LuLogOut size={16} aria-hidden="true" />
-              Sair
+            <button type="button" className={styles.sair} onClick={handleLogout} title="Sair">
+              <LuLogOut size={18} aria-hidden="true" />
+              <span className={styles.sairTexto}>Sair</span>
             </button>
           </div>
         </nav>
