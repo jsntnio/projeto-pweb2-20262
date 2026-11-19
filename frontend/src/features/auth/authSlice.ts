@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { loginThunk, restaurarSessaoThunk, logoutThunk } from './authThunks'
 import type { UsuarioLogado } from '../../types'
 
 export interface AuthState {
@@ -6,6 +7,7 @@ export interface AuthState {
     token: string | null
     carregando: boolean
     erro: string | null
+    restaurandoSessao: boolean
 }
 
 const initialState: AuthState = {
@@ -13,47 +15,53 @@ const initialState: AuthState = {
     token: null,
     carregando: false,
     erro: null,
+    restaurandoSessao: true,
 }
 
 const authSlice = createSlice({
     name: 'auth',
     initialState,
-    reducers: {
-        loginIniciado(state) {
+    reducers: {},
+    extraReducers: (builder) => {
+
+        builder.addCase(loginThunk.pending, (state) => {
             state.carregando = true
             state.erro = null
-        },
-        loginSucesso(state, action: { payload: { token: string; usuario: UsuarioLogado } }) {
+        })
+
+        builder.addCase(loginThunk.fulfilled, (state, action) => {
+            state.carregando = false
             state.token = action.payload.token
             state.usuario = action.payload.usuario
+        })
+
+        builder.addCase(loginThunk.rejected, (state, action) => {
             state.carregando = false
-            state.erro = null
-        },
-        loginErro(state, action: { payload: string }) {
-            state.carregando = false
-            state.erro = action.payload
-        },
-        sessaoRestaurada(state, action: { payload: { token: string; usuario: UsuarioLogado } }) {
+            state.erro = action.payload ?? 'Erro ao fazer login'
+        })
+
+        builder.addCase(restaurarSessaoThunk.pending, (state) => {
+            state.restaurandoSessao = true
+        })
+
+        builder.addCase(restaurarSessaoThunk.fulfilled, (state, action) => {
+            state.restaurandoSessao = false
             state.token = action.payload.token
             state.usuario = action.payload.usuario
-            state.carregando = false
-            state.erro = null
-        },
-        logout(state) {
+        })
+
+        builder.addCase(restaurarSessaoThunk.rejected, (state) => {
+            state.restaurandoSessao = false
             state.token = null
             state.usuario = null
-            state.carregando = false
+        })
+
+        builder.addCase(logoutThunk.fulfilled, (state) => {
+            state.token = null
+            state.usuario = null
             state.erro = null
-        },
+        })
     },
 })
-
-export const {
-    loginIniciado,
-    loginSucesso,
-    loginErro,
-    sessaoRestaurada,
-    logout,
-} = authSlice.actions
 
 export const authReducer = authSlice.reducer
