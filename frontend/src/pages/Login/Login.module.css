@@ -76,7 +76,7 @@
 }
 
 .cadastroText {
-    margin-top: var(--space-8);
+    margin-top: var(--space-4);
     text-align: center;
     color: var(--color-dark-soft);
     font-size: var(--font-size-sm);

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { loginThunk, restaurarSessaoThunk, logoutThunk } from './authThunks'
+import { loginThunk, restaurarSessaoThunk, logoutThunk, cadastroThunk } from './authThunks'
 import type { UsuarioLogado } from '../../types'
 
 export interface AuthState {
@@ -60,6 +60,22 @@ const authSlice = createSlice({
             state.token = null
             state.usuario = null
             state.erro = null
+        })
+
+        builder.addCase(cadastroThunk.pending, (state) => {
+            state.carregando = true
+            state.erro = null
+        })
+
+        builder.addCase(cadastroThunk.fulfilled, (state, action) => {
+            state.carregando = false
+            state.token = action.payload.token
+            state.usuario = action.payload.usuario
+        })
+
+        builder.addCase(cadastroThunk.rejected, (state, action) => {
+            state.carregando = false
+            state.erro = action.payload ?? 'Erro ao criar conta'
         })
     },
 })
