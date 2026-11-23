@@ -1,13 +1,3 @@
--- Dados iniciais do Marketplace IFPB Cajazeiras. Migração do Flyway, aplicada pela API ao subir.
--- Guia completo: docs/banco-de-dados.md
---
--- ANTES DA PRIMEIRA INICIALIZAÇÃO (primeiro "docker compose up"): edite à vontade.
---   Troque as categorias e adapte ou apague os dados de exemplo.
--- DEPOIS: não edite mais este arquivo. Crie uma migração nova (V2_1__categorias.sql, por exemplo).
---   Se editar mesmo assim, a API não sobe; recrie o banco com:
---   docker compose down -v && docker compose up --build
-
--- Cursos do campus
 INSERT INTO curso (nome) VALUES
   ('Análise e Desenvolvimento de Sistemas'),
   ('Engenharia de Controle e Automação'),
@@ -20,50 +10,192 @@ INSERT INTO curso (nome) VALUES
   ('Técnico Subsequente em Eletromecânica'),
   ('Técnico em Meio Ambiente');
 
--- Categorias: troque ou acrescente as da sua equipe. Mantenha os ids: os anúncios de exemplo usam categoria_id.
--- O slug vai na URL da busca (?categoria=eletronicos): minúsculas, sem acentos, hífen no lugar de espaços.
 INSERT INTO categoria (id, nome, slug) VALUES
   (1, 'Eletrônicos e informática', 'eletronicos'),
   (2, 'Livros e material didático', 'materiais-didatico'),
-  (3, 'Materiais de laboratório e ferramentas', 'materiais-de-laboratorio'),
+  (3, 'Materiais de laboratório', 'materiais-de-laboratorio'),
   (4, 'Roupas e uniformes', 'roupas'),
   (5, 'Móveis', 'moveis'),
   (6, 'Utensílios domésticos', 'utensilios'),
   (7, 'Artesanato e itens criativos', 'artesanato');
-  
--- ---------------------------------------------------------------------------
--- Dados de exemplo, para testar a busca. Opcional: pode adaptar ou apagar daqui para baixo.
--- O estudante de exemplo usa a senha "senha123".
--- As fotos ficam em backend/db/fotos/ e são enviadas ao armazenamento com a chave carga/<arquivo>.
--- ---------------------------------------------------------------------------
 
+-- Estudantes (Senha para todos: senha123)
 INSERT INTO usuario (id, nome, email, senha_hash, papel, curso_id, telefone, foto_chave, criado_em) VALUES
-  (1, 'Estudante de Exemplo', 'estudante@academico.ifpb.edu.br', '$2y$10$gSKL.siB69Xlo8mvaO17QOXct0eEke9fMD7DTL5pmmOoGCBNtS8BW', 'estudante', 1, '(83) 99999-0001', 'carga/usuario-estudante.jpg', '2026-09-01T12:00:00Z');
+  (1, 'Eduardo Lima', 'eduardo@academico.ifpb.edu.br', '$2y$10$gSKL.siB69Xlo8mvaO17QOXct0eEke9fMD7DTL5pmmOoGCBNtS8BW', 'estudante', 1, '(83) 99999-0001', NULL, '2026-09-01T12:00:00Z'),
+  (2, 'Maria Clara', 'maria@academico.ifpb.edu.br', '$2y$10$gSKL.siB69Xlo8mvaO17QOXct0eEke9fMD7DTL5pmmOoGCBNtS8BW', 'estudante', 2, '(83) 99999-0002', NULL, '2026-09-02T12:00:00Z'),
+  (3, 'João Pedro', 'joao@academico.ifpb.edu.br', '$2y$10$gSKL.siB69Xlo8mvaO17QOXct0eEke9fMD7DTL5pmmOoGCBNtS8BW', 'estudante', 3, '(83) 99999-0003', NULL, '2026-09-03T12:00:00Z'),
+  (4, 'Ana Beatriz', 'ana@academico.ifpb.edu.br', '$2y$10$gSKL.siB69Xlo8mvaO17QOXct0eEke9fMD7DTL5pmmOoGCBNtS8BW', 'estudante', 4, '(83) 99999-0004', NULL, '2026-09-04T12:00:00Z'),
+  (5, 'Lucas Gabriel', 'lucas@academico.ifpb.edu.br', '$2y$10$gSKL.siB69Xlo8mvaO17QOXct0eEke9fMD7DTL5pmmOoGCBNtS8BW', 'estudante', 5, '(83) 99999-0005', NULL, '2026-09-05T12:00:00Z'),
+  (6, 'Julia Ferreira', 'julia@academico.ifpb.edu.br', '$2y$10$gSKL.siB69Xlo8mvaO17QOXct0eEke9fMD7DTL5pmmOoGCBNtS8BW', 'estudante', 6, '(83) 99999-0006', NULL, '2026-09-06T12:00:00Z'),
+  (7, 'Matheus Silva', 'matheus@academico.ifpb.edu.br', '$2y$10$gSKL.siB69Xlo8mvaO17QOXct0eEke9fMD7DTL5pmmOoGCBNtS8BW', 'estudante', 7, '(83) 99999-0007', NULL, '2026-09-07T12:00:00Z'),
+  (8, 'Letícia Souza', 'leticia@academico.ifpb.edu.br', '$2y$10$gSKL.siB69Xlo8mvaO17QOXct0eEke9fMD7DTL5pmmOoGCBNtS8BW', 'estudante', 8, '(83) 99999-0008', NULL, '2026-09-08T12:00:00Z'),
+  (9, 'Gabriel Rocha', 'gabriel@academico.ifpb.edu.br', '$2y$10$gSKL.siB69Xlo8mvaO17QOXct0eEke9fMD7DTL5pmmOoGCBNtS8BW', 'estudante', 9, '(83) 99999-0009', NULL, '2026-09-09T12:00:00Z'),
+  (10, 'Camila Alves', 'camila@academico.ifpb.edu.br', '$2y$10$gSKL.siB69Xlo8mvaO17QOXct0eEke9fMD7DTL5pmmOoGCBNtS8BW', 'estudante', 10, '(83) 99999-0010', NULL, '2026-09-10T12:00:00Z'),
+  (11, 'Rafael Martins', 'rafael@academico.ifpb.edu.br', '$2y$10$gSKL.siB69Xlo8mvaO17QOXct0eEke9fMD7DTL5pmmOoGCBNtS8BW', 'estudante', 1, '(83) 99999-0011', NULL, '2026-09-11T12:00:00Z');
 
--- Preço em centavos (8000 = R$ 80,00); NULL em doações.
--- Estados: ativo, pausado, reservado, vendido (só vendas) e concluido (só doações).
+-- Anúncios de Vendas (10 por categoria)
 INSERT INTO anuncio (id, usuario_id, categoria_id, titulo, descricao, modalidade, preco_centavos, estado_conservacao, local_entrega, estado, publicado_em, atualizado_em) VALUES
-  (1,  1, 1, 'Fone de ouvido Bluetooth', 'Fone sem fio com estojo de carga. Bateria dura cerca de 8 horas.', 'venda', 8000, 'seminovo', 'Bloco de Informática, intervalo da manhã', 'ativo', '2026-09-05T13:10:00Z', '2026-09-05T13:10:00Z'),
-  (2,  1, 1, 'Mouse sem fio', 'Mouse sem fio com receptor USB. Acompanha pilha.', 'venda', 4500, 'usado', 'Biblioteca', 'ativo', '2026-09-08T15:00:00Z', '2026-09-08T15:00:00Z'),
-  (3,  1, 1, 'Teclado mecânico', 'Teclado mecânico ABNT2 com iluminação. Todas as teclas funcionando.', 'venda', 15000, 'seminovo', 'Bloco de Informática', 'reservado', '2026-09-10T10:30:00Z', '2026-09-20T18:00:00Z'),
-  (4,  1, 1, 'Carregador de notebook', 'Carregador universal 90 W com várias pontas. Funciona, mas o cabo tem marcas de uso.', 'doacao', NULL, 'usado', 'Cantina', 'ativo', '2026-09-12T11:45:00Z', '2026-09-12T11:45:00Z'),
-  (5,  1, 1, 'Calculadora científica', 'Calculadora científica, ideal para Cálculo e Física.', 'venda', 6000, 'usado', 'Bloco de Matemática', 'vendido', '2026-09-14T09:00:00Z', '2026-09-25T09:00:00Z'),
-  (6,  1, 1, 'Pen drive 16 GB', 'Pen drive novo, ainda na embalagem.', 'doacao', NULL, 'novo', 'Biblioteca', 'pausado', '2026-09-15T16:20:00Z', '2026-09-18T16:20:00Z'),
-  (7,  1, 1, 'Arduino Uno com kit de sensores', 'Arduino Uno com protoboard, sensores de temperatura, ultrassom e LDR, e cabos.', 'venda', 12000, 'seminovo', 'Laboratório de Automação', 'ativo', '2026-09-18T14:00:00Z', '2026-09-18T14:00:00Z'),
-  (8,  1, 1, 'Raspberry Pi 4 (4 GB)', 'Raspberry Pi 4 com case, fonte oficial e cartão de 32 GB.', 'venda', 35000, 'seminovo', 'Laboratório de Automação', 'ativo', '2026-09-22T10:00:00Z', '2026-09-22T10:00:00Z'),
-  (9,  1, 1, 'Multímetro digital', 'Multímetro com pontas de prova. Mede tensão, corrente, resistência e continuidade.', 'venda', 7000, 'usado', 'Bloco de Eletromecânica', 'ativo', '2026-09-25T17:30:00Z', '2026-09-25T17:30:00Z'),
-  (10, 1, 1, 'Cabo HDMI 2 m', 'Cabo HDMI de 2 metros, sem uso.', 'doacao', NULL, 'novo', 'Portaria principal', 'ativo', '2026-09-28T08:15:00Z', '2026-09-28T08:15:00Z'),
-  (11, 1, 1, 'Monitor 22 polegadas', 'Monitor Full HD de 22 polegadas com entrada HDMI e VGA. Sem pixels mortos.', 'venda', 45000, 'usado', 'Combinar pelo chat', 'ativo', '2026-10-01T19:00:00Z', '2026-10-01T19:00:00Z'),
-  (12, 1, 1, 'Protoboard e jumpers', 'Protoboard de 830 pontos com cerca de 60 jumpers.', 'doacao', NULL, 'usado', 'Laboratório de Automação', 'concluido', '2026-10-02T13:00:00Z', '2026-10-06T13:00:00Z'),
-  (13, 1, 1, 'Notebook Lenovo IdeaPad', 'Notebook com Core i5, 8 GB de RAM e SSD de 256 GB. Bateria dura cerca de 3 horas.', 'venda', 180000, 'usado', 'Bloco de Informática, à tarde', 'ativo', '2026-10-04T15:40:00Z', '2026-10-04T15:40:00Z'),
-  (14, 1, 1, 'Webcam Full HD', 'Webcam 1080p com microfone embutido.', 'venda', 9000, 'seminovo', 'Biblioteca', 'ativo', '2026-10-07T11:00:00Z', '2026-10-07T11:00:00Z'),
-  (15, 1, 1, 'Caixa de som portátil', 'Caixa de som Bluetooth à prova de respingos.', 'venda', 11000, 'novo', 'Cantina', 'pausado', '2026-10-09T12:30:00Z', '2026-10-10T12:30:00Z'),
-  (16, 1, 1, 'Mouse pad gamer', 'Mouse pad grande, 80 x 30 cm.', 'doacao', NULL, 'seminovo', 'Bloco de Informática', 'ativo', '2026-10-11T09:45:00Z', '2026-10-11T09:45:00Z'),
-  (17, 1, 1, 'Fonte de alimentação 12 V', 'Fonte 12 V 2 A, serve para fitas de LED e roteadores.', 'doacao', NULL, 'usado', 'Portaria principal', 'ativo', '2026-10-14T14:10:00Z', '2026-10-14T14:10:00Z'),
-  (18, 1, 1, 'HD externo 1 TB', 'HD externo USB 3.0 de 1 TB, formatado.', 'venda', 20000, 'seminovo', 'Biblioteca', 'ativo', '2026-10-16T16:00:00Z', '2026-10-16T16:00:00Z');
+  -- Eletrônicos (Cat 1)
+  (1,  1, 1, 'Notebook Dell Inspiron 15', 'Core i5, 8GB RAM, SSD 256GB. Excelente para estudos.', 'venda', 180000, 'seminovo', 'Bloco de Informática', 'ativo', '2026-10-01T10:00:00Z', '2026-10-01T10:00:00Z'),
+  (2,  2, 1, 'Monitor LG 24 polegadas', 'Monitor Full HD com HDMI. Perfeito para programar.', 'venda', 45000, 'usado', 'Biblioteca', 'ativo', '2026-10-02T10:00:00Z', '2026-10-02T10:00:00Z'),
+  (3,  3, 1, 'Teclado Mecânico Redragon', 'Switch azul, ABNT2, com iluminação RGB.', 'venda', 15000, 'seminovo', 'Cantina', 'ativo', '2026-10-03T10:00:00Z', '2026-10-03T10:00:00Z'),
+  (4,  4, 1, 'Mouse Logitech G203', 'Mouse gamer com 8000 DPI, cabo USB.', 'venda', 8000, 'usado', 'Bloco de Informática', 'ativo', '2026-10-04T10:00:00Z', '2026-10-04T10:00:00Z'),
+  (5,  5, 1, 'Fone de Ouvido JBL', 'Fone bluetooth com case de carregamento.', 'venda', 12000, 'seminovo', 'Portaria', 'ativo', '2026-10-05T10:00:00Z', '2026-10-05T10:00:00Z'),
+  (6,  6, 1, 'Placa de Vídeo GTX 1650', 'Placa de vídeo 4GB, roda jogos e softwares de CAD.', 'venda', 85000, 'usado', 'Bloco de Automação', 'ativo', '2026-10-06T10:00:00Z', '2026-10-06T10:00:00Z'),
+  (7,  7, 1, 'Carregador de Macbook', 'Carregador original Apple 61W USB-C.', 'venda', 20000, 'seminovo', 'Biblioteca', 'ativo', '2026-10-07T10:00:00Z', '2026-10-07T10:00:00Z'),
+  (8,  8, 1, 'Tablet Samsung Galaxy', 'Tablet com caneta, ótimo para anotações de aula.', 'venda', 95000, 'seminovo', 'Cantina', 'ativo', '2026-10-08T10:00:00Z', '2026-10-08T10:00:00Z'),
+  (9,  9, 1, 'Webcam Logitech C920', 'Webcam Full HD 1080p, ideal para reuniões.', 'venda', 25000, 'usado', 'Bloco de Informática', 'ativo', '2026-10-09T10:00:00Z', '2026-10-09T10:00:00Z'),
+  (10, 10, 1, 'Roteador TP-Link', 'Roteador Wi-Fi dual band. Funciona perfeitamente.', 'venda', 10000, 'usado', 'Portaria', 'ativo', '2026-10-10T10:00:00Z', '2026-10-10T10:00:00Z'),
+  -- Livros (Cat 2)
+  (11, 11, 2, 'Cálculo Volume 1 - Stewart', 'Livro em ótimo estado, sem rasuras.', 'venda', 12000, 'seminovo', 'Bloco de Matemática', 'ativo', '2026-10-01T11:00:00Z', '2026-10-01T11:00:00Z'),
+  (12, 1, 2, 'Estruturas de Dados - Loide', 'Livro clássico de programação.', 'venda', 8000, 'usado', 'Biblioteca', 'ativo', '2026-10-02T11:00:00Z', '2026-10-02T11:00:00Z'),
+  (13, 2, 2, 'Física I - Halliday', 'Capa levemente amassada, mas conteúdo perfeito.', 'venda', 10000, 'usado', 'Cantina', 'ativo', '2026-10-03T11:00:00Z', '2026-10-03T11:00:00Z'),
+  (14, 3, 2, 'Desenho Técnico - Miceli', 'Essencial para engenharia e edificações.', 'venda', 7500, 'seminovo', 'Bloco de Edificações', 'ativo', '2026-10-04T11:00:00Z', '2026-10-04T11:00:00Z'),
+  (15, 4, 2, 'Química Geral - Atkins', 'Livro de química geral, volume único.', 'venda', 15000, 'novo', 'Biblioteca', 'ativo', '2026-10-05T11:00:00Z', '2026-10-05T11:00:00Z'),
+  (16, 5, 2, 'Introdução à Automação', 'Livro texto do curso de automação.', 'venda', 9000, 'usado', 'Bloco de Automação', 'ativo', '2026-10-06T11:00:00Z', '2026-10-06T11:00:00Z'),
+  (17, 6, 2, 'Algoritmos - Manzano', 'Livro introdutório de lógica de programação.', 'venda', 6000, 'seminovo', 'Bloco de Informática', 'ativo', '2026-10-07T11:00:00Z', '2026-10-07T11:00:00Z'),
+  (18, 7, 2, 'Geometria Analítica', 'Livro de matemática básica para universidade.', 'venda', 8500, 'usado', 'Bloco de Matemática', 'ativo', '2026-10-08T11:00:00Z', '2026-10-08T11:00:00Z'),
+  (19, 8, 2, 'Dicionário de Inglês', 'Dicionário Oxford avançado.', 'venda', 5000, 'usado', 'Cantina', 'ativo', '2026-10-09T11:00:00Z', '2026-10-09T11:00:00Z'),
+  (20, 9, 2, 'Redes de Computadores', 'Livro do Kurose, excelente para redes.', 'venda', 14000, 'seminovo', 'Biblioteca', 'ativo', '2026-10-10T11:00:00Z', '2026-10-10T11:00:00Z'),
+  -- Materiais de laboratório (Cat 3)
+  (21, 10, 3, 'Calculadora HP 50g', 'Calculadora gráfica avançada.', 'venda', 40000, 'usado', 'Bloco de Matemática', 'ativo', '2026-10-01T12:00:00Z', '2026-10-01T12:00:00Z'),
+  (22, 11, 3, 'Jaleco Branco Tamanho M', 'Jaleco novo, sem uso, tamanho M.', 'venda', 6000, 'novo', 'Bloco de Edificações', 'ativo', '2026-10-02T12:00:00Z', '2026-10-02T12:00:00Z'),
+  (23, 1, 3, 'Kit Arduino Uno', 'Placa Arduino com protoboard e jumpers.', 'venda', 11000, 'seminovo', 'Bloco de Automação', 'ativo', '2026-10-03T12:00:00Z', '2026-10-03T12:00:00Z'),
+  (24, 2, 3, 'Multímetro Digital', 'Mede tensão, corrente e resistência.', 'venda', 8000, 'usado', 'Bloco de Automação', 'ativo', '2026-10-04T12:00:00Z', '2026-10-04T12:00:00Z'),
+  (25, 3, 3, 'Óculos de Proteção', 'Óculos de EPI para laboratório.', 'venda', 3000, 'novo', 'Bloco de Eletromecânica', 'ativo', '2026-10-05T12:00:00Z', '2026-10-05T12:00:00Z'),
+  (26, 4, 3, 'Paquímetro Digital', 'Paquímetro de 150mm em aço inox.', 'venda', 12000, 'seminovo', 'Bloco de Eletromecânica', 'ativo', '2026-10-06T12:00:00Z', '2026-10-06T12:00:00Z'),
+  (27, 5, 3, 'Kit de Chaves de Precisão', 'Conjunto com 25 pontas magnéticas.', 'venda', 4500, 'usado', 'Bloco de Informática', 'ativo', '2026-10-07T12:00:00Z', '2026-10-07T12:00:00Z'),
+  (28, 6, 3, 'Bússola de Engenharia', 'Bússola de precisão para desenho técnico.', 'venda', 3500, 'usado', 'Bloco de Edificações', 'ativo', '2026-10-08T12:00:00Z', '2026-10-08T12:00:00Z'),
+  (29, 7, 3, 'Régua Técnica 30cm', 'Régua de aço inox.', 'venda', 1500, 'novo', 'Bloco de Edificações', 'ativo', '2026-10-09T12:00:00Z', '2026-10-09T12:00:00Z'),
+  (30, 8, 3, 'Fonte de Bancada', 'Fonte de alimentação ajustável.', 'venda', 25000, 'usado', 'Bloco de Automação', 'ativo', '2026-10-10T12:00:00Z', '2026-10-10T12:00:00Z'),
+  -- Roupas (Cat 4)
+  (31, 9, 4, 'Casaco do IFPB', 'Moletom oficial do IFPB tamanho G.', 'venda', 9000, 'usado', 'Cantina', 'ativo', '2026-10-01T13:00:00Z', '2026-10-01T13:00:00Z'),
+  (32, 10, 4, 'Camisa Polo', 'Camisa polo azul marinho tam M.', 'venda', 3500, 'seminovo', 'Biblioteca', 'ativo', '2026-10-02T13:00:00Z', '2026-10-02T13:00:00Z'),
+  (33, 11, 4, 'Tênis Esportivo', 'Tênis para corrida nike 41.', 'venda', 18000, 'usado', 'Portaria', 'ativo', '2026-10-03T13:00:00Z', '2026-10-03T13:00:00Z'),
+  (34, 1, 4, 'Boné Preto', 'Boné aba reta.', 'venda', 3000, 'novo', 'Cantina', 'ativo', '2026-10-04T13:00:00Z', '2026-10-04T13:00:00Z'),
+  (35, 2, 4, 'Calça Jeans', 'Calça jeans masculina 42.', 'venda', 6000, 'usado', 'Bloco de Informática', 'ativo', '2026-10-05T13:00:00Z', '2026-10-05T13:00:00Z'),
+  (36, 3, 4, 'Blusa de Frio', 'Blusa de lã tamanho P.', 'venda', 4500, 'seminovo', 'Biblioteca', 'ativo', '2026-10-06T13:00:00Z', '2026-10-06T13:00:00Z'),
+  (37, 4, 4, 'Shorts Praia', 'Shorts masculino tam G.', 'venda', 2500, 'novo', 'Portaria', 'ativo', '2026-10-07T13:00:00Z', '2026-10-07T13:00:00Z'),
+  (38, 5, 4, 'Meias Coloridas', 'Kit com 3 pares de meias.', 'venda', 1500, 'novo', 'Cantina', 'ativo', '2026-10-08T13:00:00Z', '2026-10-08T13:00:00Z'),
+  (39, 6, 4, 'Chapéu de Sol', 'Chapéu para proteção solar.', 'venda', 2000, 'usado', 'Bloco de Edificações', 'ativo', '2026-10-09T13:00:00Z', '2026-10-09T13:00:00Z'),
+  (40, 7, 4, 'Sapato Social', 'Sapato social marrom nº 40.', 'venda', 8000, 'seminovo', 'Biblioteca', 'ativo', '2026-10-10T13:00:00Z', '2026-10-10T13:00:00Z'),
+  -- Móveis (Cat 5)
+  (41, 8, 5, 'Cadeira de Escritório', 'Cadeira ergonômica com rodinhas.', 'venda', 25000, 'usado', 'Biblioteca', 'ativo', '2026-10-01T14:00:00Z', '2026-10-01T14:00:00Z'),
+  (42, 9, 5, 'Mesa de Estudos', 'Mesa com prateleiras, tam 1.2m.', 'venda', 15000, 'usado', 'Portaria', 'ativo', '2026-10-02T14:00:00Z', '2026-10-02T14:00:00Z'),
+  (43, 10, 5, 'Estante de Livros', 'Estante de madeira com 4 prateleiras.', 'venda', 12000, 'seminovo', 'Cantina', 'ativo', '2026-10-03T14:00:00Z', '2026-10-03T14:00:00Z'),
+  (44, 11, 5, 'Puff Redondo', 'Puff cinza para sala.', 'venda', 5000, 'usado', 'Cantina', 'ativo', '2026-10-04T14:00:00Z', '2026-10-04T14:00:00Z'),
+  (45, 1, 5, 'Luminária de Mesa', 'Luminária com braço flexível.', 'venda', 3500, 'usado', 'Bloco de Informática', 'ativo', '2026-10-05T14:00:00Z', '2026-10-05T14:00:00Z'),
+  (46, 2, 5, 'Gaveteiro', 'Gaveteiro de escritório com chave.', 'venda', 9000, 'usado', 'Portaria', 'ativo', '2026-10-06T14:00:00Z', '2026-10-06T14:00:00Z'),
+  (47, 3, 5, 'Cama de Solteiro', 'Estrutura de cama de ferro.', 'venda', 20000, 'usado', 'Portaria', 'ativo', '2026-10-07T14:00:00Z', '2026-10-07T14:00:00Z'),
+  (48, 4, 5, 'Armário de Aço', 'Armário de duas portas.', 'venda', 18000, 'usado', 'Bloco de Edificações', 'ativo', '2026-10-08T14:00:00Z', '2026-10-08T14:00:00Z'),
+  (49, 5, 5, 'Poltrona', 'Poltrona de tecido azul.', 'venda', 16000, 'seminovo', 'Cantina', 'ativo', '2026-10-09T14:00:00Z', '2026-10-09T14:00:00Z'),
+  (50, 6, 5, 'Mesa de Centro', 'Mesa de vidro com base de madeira.', 'venda', 10000, 'usado', 'Biblioteca', 'ativo', '2026-10-10T14:00:00Z', '2026-10-10T14:00:00Z'),
+  -- Utensílios (Cat 6)
+  (51, 7, 6, 'Air Fryer', 'Air fryer 4L, funcionando perfeitamente.', 'venda', 22000, 'seminovo', 'Cantina', 'ativo', '2026-10-01T15:00:00Z', '2026-10-01T15:00:00Z'),
+  (52, 8, 6, 'Liquidificador', 'Liquidificador 2L com copo de vidro.', 'venda', 8000, 'usado', 'Cantina', 'ativo', '2026-10-02T15:00:00Z', '2026-10-02T15:00:00Z'),
+  (53, 9, 6, 'Jogo de Panelas', 'Jogo com 5 panelas antiaderentes.', 'venda', 15000, 'usado', 'Portaria', 'ativo', '2026-10-03T15:00:00Z', '2026-10-03T15:00:00Z'),
+  (54, 10, 6, 'Micro-ondas', 'Micro-ondas 20L.', 'venda', 25000, 'usado', 'Biblioteca', 'ativo', '2026-10-04T15:00:00Z', '2026-10-04T15:00:00Z'),
+  (55, 11, 6, 'Sanduicheira', 'Sanduicheira grill.', 'venda', 4500, 'usado', 'Cantina', 'ativo', '2026-10-05T15:00:00Z', '2026-10-05T15:00:00Z'),
+  (56, 1, 6, 'Cafeteira', 'Cafeteira elétrica 15 xícaras.', 'venda', 6000, 'seminovo', 'Cantina', 'ativo', '2026-10-06T15:00:00Z', '2026-10-06T15:00:00Z'),
+  (57, 2, 6, 'Conjunto de Pratos', 'Jogo de 6 pratos de porcelana.', 'venda', 5000, 'novo', 'Biblioteca', 'ativo', '2026-10-07T15:00:00Z', '2026-10-07T15:00:00Z'),
+  (58, 3, 6, 'Potes de Vidro', 'Kit com 3 potes herméticos.', 'venda', 3000, 'novo', 'Portaria', 'ativo', '2026-10-08T15:00:00Z', '2026-10-08T15:00:00Z'),
+  (59, 4, 6, 'Chaleira Elétrica', 'Ferve água rapidamente.', 'venda', 4000, 'usado', 'Cantina', 'ativo', '2026-10-09T15:00:00Z', '2026-10-09T15:00:00Z'),
+  (60, 5, 6, 'Ventilador', 'Ventilador de mesa, 3 velocidades.', 'venda', 7000, 'usado', 'Bloco de Automação', 'ativo', '2026-10-10T15:00:00Z', '2026-10-10T15:00:00Z'),
+  -- Artesanato (Cat 7)
+  (61, 6, 7, 'Quadro Pintado à Mão', 'Pintura em tela de paisagem.', 'venda', 12000, 'novo', 'Cantina', 'ativo', '2026-10-01T16:00:00Z', '2026-10-01T16:00:00Z'),
+  (62, 7, 7, 'Colar de Macramê', 'Colar artesanal feito à mão.', 'venda', 3500, 'novo', 'Biblioteca', 'ativo', '2026-10-02T16:00:00Z', '2026-10-02T16:00:00Z'),
+  (63, 8, 7, 'Vaso de Cerâmica', 'Vaso pintado à mão.', 'venda', 6000, 'novo', 'Portaria', 'ativo', '2026-10-03T16:00:00Z', '2026-10-03T16:00:00Z'),
+  (64, 9, 7, 'Pulseira de Miçangas', 'Pulseira colorida artesanal.', 'venda', 1500, 'novo', 'Cantina', 'ativo', '2026-10-04T16:00:00Z', '2026-10-04T16:00:00Z'),
+  (65, 10, 7, 'Caderno Artesanal', 'Caderno com capa de tecido.', 'venda', 4500, 'novo', 'Bloco de Informática', 'ativo', '2026-10-05T16:00:00Z', '2026-10-05T16:00:00Z'),
+  (66, 11, 7, 'Marcador de Página', 'Kit com 5 marcadores de resina.', 'venda', 2000, 'novo', 'Biblioteca', 'ativo', '2026-10-06T16:00:00Z', '2026-10-06T16:00:00Z'),
+  (67, 1, 7, 'Chaveiro Personalizado', 'Chaveiro de madeira com nome.', 'venda', 1000, 'novo', 'Cantina', 'ativo', '2026-10-07T16:00:00Z', '2026-10-07T16:00:00Z'),
+  (68, 2, 7, 'Porta-retrato', 'Porta-retrato rústico.', 'venda', 3000, 'novo', 'Portaria', 'ativo', '2026-10-08T16:00:00Z', '2026-10-08T16:00:00Z'),
+  (69, 3, 7, 'Boneca de Pano', 'Boneca feita à mão.', 'venda', 5000, 'novo', 'Biblioteca', 'ativo', '2026-10-09T16:00:00Z', '2026-10-09T16:00:00Z'),
+  (70, 4, 7, 'Jogo Americano', 'Jogo americano de crochê.', 'venda', 4000, 'novo', 'Cantina', 'ativo', '2026-10-10T16:00:00Z', '2026-10-10T16:00:00Z');
 
--- A primeira foto de cada anúncio é a capa (capa = 1).
+-- Anúncios de Doações (10 por categoria)
+INSERT INTO anuncio (id, usuario_id, categoria_id, titulo, descricao, modalidade, preco_centavos, estado_conservacao, local_entrega, estado, publicado_em, atualizado_em) VALUES
+  -- Eletrônicos (Cat 1)
+  (71, 5, 1, 'Cabo HDMI 2m', 'Cabo em bom estado.', 'doacao', NULL, 'usado', 'Biblioteca', 'ativo', '2026-10-11T10:00:00Z', '2026-10-11T10:00:00Z'),
+  (72, 6, 1, 'Mouse sem fio', 'Mouse óptico simples.', 'doacao', NULL, 'usado', 'Cantina', 'ativo', '2026-10-12T10:00:00Z', '2026-10-12T10:00:00Z'),
+  (73, 7, 1, 'Pen drive 8GB', 'Pen drive antigo, mas funciona.', 'doacao', NULL, 'usado', 'Portaria', 'ativo', '2026-10-13T10:00:00Z', '2026-10-13T10:00:00Z'),
+  (74, 8, 1, 'Carregador de celular', 'Carregador micro-USB.', 'doacao', NULL, 'usado', 'Bloco de Informática', 'ativo', '2026-10-14T10:00:00Z', '2026-10-14T10:00:00Z'),
+  (75, 9, 1, 'Fones de ouvido', 'Fone com fio, funcionando.', 'doacao', NULL, 'usado', 'Biblioteca', 'ativo', '2026-10-15T10:00:00Z', '2026-10-15T10:00:00Z'),
+  (76, 10, 1, 'Teclado USB', 'Teclado simples de escritório.', 'doacao', NULL, 'usado', 'Cantina', 'ativo', '2026-10-16T10:00:00Z', '2026-10-16T10:00:00Z'),
+  (77, 11, 1, 'Adaptador VGA', 'Adaptador para projetor.', 'doacao', NULL, 'usado', 'Portaria', 'ativo', '2026-10-17T10:00:00Z', '2026-10-17T10:00:00Z'),
+  (78, 1, 1, 'Pilhas recarregáveis', 'Par de pilhas com carregador.', 'doacao', NULL, 'usado', 'Bloco de Automação', 'ativo', '2026-10-18T10:00:00Z', '2026-10-18T10:00:00Z'),
+  (79, 2, 1, 'Hub USB', 'Hub com 4 portas USB.', 'doacao', NULL, 'usado', 'Biblioteca', 'ativo', '2026-10-19T10:00:00Z', '2026-10-19T10:00:00Z'),
+  (80, 3, 1, 'Capa de celular', 'Capa de silicone para celular antigo.', 'doacao', NULL, 'usado', 'Cantina', 'ativo', '2026-10-20T10:00:00Z', '2026-10-20T10:00:00Z'),
+  -- Livros (Cat 2)
+  (81, 4, 2, 'Apostila de Cálculo', 'Apostila com exercícios resolvidos.', 'doacao', NULL, 'usado', 'Bloco de Matemática', 'ativo', '2026-10-11T11:00:00Z', '2026-10-11T11:00:00Z'),
+  (82, 5, 2, 'Livro de Literatura', 'Romance clássico brasileiro.', 'doacao', NULL, 'usado', 'Biblioteca', 'ativo', '2026-10-12T11:00:00Z', '2026-10-12T11:00:00Z'),
+  (83, 6, 2, 'Dicionário de Espanhol', 'Dicionário básico.', 'doacao', NULL, 'usado', 'Cantina', 'ativo', '2026-10-13T11:00:00Z', '2026-10-13T11:00:00Z'),
+  (84, 7, 2, 'Revistas de Ciência', 'Lote com 5 revistas.', 'doacao', NULL, 'usado', 'Portaria', 'ativo', '2026-10-14T11:00:00Z', '2026-10-14T11:00:00Z'),
+  (85, 8, 2, 'Livro de História', 'Livro didático do ensino médio.', 'doacao', NULL, 'usado', 'Biblioteca', 'ativo', '2026-10-15T11:00:00Z', '2026-10-15T11:00:00Z'),
+  (86, 9, 2, 'Caderno de Anotações', 'Caderno com poucas folhas usadas.', 'doacao', NULL, 'usado', 'Cantina', 'ativo', '2026-10-16T11:00:00Z', '2026-10-16T11:00:00Z'),
+  (87, 10, 2, 'Livro de Inglês', 'Livro básico de inglês.', 'doacao', NULL, 'usado', 'Bloco de Informática', 'ativo', '2026-10-17T11:00:00Z', '2026-10-17T11:00:00Z'),
+  (88, 11, 2, 'Atlas Geográfico', 'Atlas escolar em bom estado.', 'doacao', NULL, 'usado', 'Biblioteca', 'ativo', '2026-10-18T11:00:00Z', '2026-10-18T11:00:00Z'),
+  (89, 1, 2, 'Livro de Filosofia', 'Introdução à filosofia.', 'doacao', NULL, 'usado', 'Portaria', 'ativo', '2026-10-19T11:00:00Z', '2026-10-19T11:00:00Z'),
+  (90, 2, 2, 'Gibi Turma da Mônica', 'Gibi antigo para colecionador.', 'doacao', NULL, 'usado', 'Cantina', 'ativo', '2026-10-20T11:00:00Z', '2026-10-20T11:00:00Z'),
+  -- Materiais de laboratório (Cat 3)
+  (91, 3, 3, 'Protoboard', 'Protoboard usada, em bom estado.', 'doacao', NULL, 'usado', 'Bloco de Automação', 'ativo', '2026-10-11T12:00:00Z', '2026-10-11T12:00:00Z'),
+  (92, 4, 3, 'Jumpers', 'Lote com 20 jumpers.', 'doacao', NULL, 'usado', 'Bloco de Automação', 'ativo', '2026-10-12T12:00:00Z', '2026-10-12T12:00:00Z'),
+  (93, 5, 3, 'Leds', 'Pacote com 50 LEDs coloridos.', 'doacao', NULL, 'usado', 'Bloco de Automação', 'ativo', '2026-10-13T12:00:00Z', '2026-10-13T12:00:00Z'),
+  (94, 6, 3, 'Resistores', 'Kit de resistores variados.', 'doacao', NULL, 'usado', 'Bloco de Automação', 'ativo', '2026-10-14T12:00:00Z', '2026-10-14T12:00:00Z'),
+  (95, 7, 3, 'Tesoura de poda', 'Tesoura para jardim.', 'doacao', NULL, 'usado', 'Bloco de Meio Ambiente', 'ativo', '2026-10-15T12:00:00Z', '2026-10-15T12:00:00Z'),
+  (96, 8, 3, 'Luvas de látex', 'Par de luvas para laboratório.', 'doacao', NULL, 'usado', 'Bloco de Edificações', 'ativo', '2026-10-16T12:00:00Z', '2026-10-16T12:00:00Z'),
+  (97, 9, 3, 'Fita métrica', 'Fita métrica de 5m.', 'doacao', NULL, 'usado', 'Bloco de Edificações', 'ativo', '2026-10-17T12:00:00Z', '2026-10-17T12:00:00Z'),
+  (98, 10, 3, 'Chave de fenda', 'Chave de fenda pequena.', 'doacao', NULL, 'usado', 'Bloco de Automação', 'ativo', '2026-10-18T12:00:00Z', '2026-10-18T12:00:00Z'),
+  (99, 11, 3, 'Estilete', 'Estilete de precisão.', 'doacao', NULL, 'usado', 'Bloco de Informática', 'ativo', '2026-10-19T12:00:00Z', '2026-10-19T12:00:00Z'),
+  (100, 1, 3, 'Cola quente', 'Cola quente em bastão.', 'doacao', NULL, 'usado', 'Cantina', 'ativo', '2026-10-20T12:00:00Z', '2026-10-20T12:00:00Z'),
+  -- Roupas (Cat 4)
+  (101, 2, 4, 'Camiseta Básica Branca', 'Camiseta tam G, sem uso.', 'doacao', NULL, 'usado', 'Cantina', 'ativo', '2026-10-11T13:00:00Z', '2026-10-11T13:00:00Z'),
+  (102, 3, 4, 'Bermuda Jeans', 'Bermuda masculina tam 40.', 'doacao', NULL, 'usado', 'Biblioteca', 'ativo', '2026-10-12T13:00:00Z', '2026-10-12T13:00:00Z'),
+  (103, 4, 4, 'Suéter', 'Suéter feminino tam M.', 'doacao', NULL, 'usado', 'Portaria', 'ativo', '2026-10-13T13:00:00Z', '2026-10-13T13:00:00Z'),
+  (104, 5, 4, 'Cinto de Couro', 'Cinto marrom.', 'doacao', NULL, 'usado', 'Cantina', 'ativo', '2026-10-14T13:00:00Z', '2026-10-14T13:00:00Z'),
+  (105, 6, 4, 'Meias de Lã', 'Par de meias para o frio.', 'doacao', NULL, 'usado', 'Bloco de Informática', 'ativo', '2026-10-15T13:00:00Z', '2026-10-15T13:00:00Z'),
+  (106, 7, 4, 'Lenço', 'Lenço estampado.', 'doacao', NULL, 'usado', 'Biblioteca', 'ativo', '2026-10-16T13:00:00Z', '2026-10-16T13:00:00Z'),
+  (107, 8, 4, 'Jaqueta Jeans', 'Jaqueta jeans desbotada.', 'doacao', NULL, 'usado', 'Cantina', 'ativo', '2026-10-17T13:00:00Z', '2026-10-17T13:00:00Z'),
+  (108, 9, 4, 'Chinelo', 'Chinelo tamanho 39.', 'doacao', NULL, 'usado', 'Portaria', 'ativo', '2026-10-18T13:00:00Z', '2026-10-18T13:00:00Z'),
+  (109, 10, 4, 'Gorro', 'Gorro de lã preto.', 'doacao', NULL, 'usado', 'Cantina', 'ativo', '2026-10-19T13:00:00Z', '2026-10-19T13:00:00Z'),
+  (110, 11, 4, 'Regata', 'Regata esportiva.', 'doacao', NULL, 'usado', 'Biblioteca', 'ativo', '2026-10-20T13:00:00Z', '2026-10-20T13:00:00Z'),
+  -- Móveis (Cat 5)
+  (111, 1, 5, 'Cadeira de Plástico', 'Cadeira simples branca.', 'doacao', NULL, 'usado', 'Cantina', 'ativo', '2026-10-11T14:00:00Z', '2026-10-11T14:00:00Z'),
+  (112, 2, 5, 'Prateleira de Madeira', 'Prateleira pequena.', 'doacao', NULL, 'usado', 'Portaria', 'ativo', '2026-10-12T14:00:00Z', '2026-10-12T14:00:00Z'),
+  (113, 3, 5, 'Banquinho', 'Banquinho de madeira.', 'doacao', NULL, 'usado', 'Biblioteca', 'ativo', '2026-10-13T14:00:00Z', '2026-10-13T14:00:00Z'),
+  (114, 4, 5, 'Espelho de Parede', 'Espelho retangular.', 'doacao', NULL, 'usado', 'Cantina', 'ativo', '2026-10-14T14:00:00Z', '2026-10-14T14:00:00Z'),
+  (115, 5, 5, 'Cabideiro', 'Cabideiro de chão.', 'doacao', NULL, 'usado', 'Portaria', 'ativo', '2026-10-15T14:00:00Z', '2026-10-15T14:00:00Z'),
+  (116, 6, 5, 'Almofada', 'Almofada decorativa.', 'doacao', NULL, 'usado', 'Cantina', 'ativo', '2026-10-16T14:00:00Z', '2026-10-16T14:00:00Z'),
+  (117, 7, 5, 'Tapete Pequeno', 'Tapete para porta.', 'doacao', NULL, 'usado', 'Biblioteca', 'ativo', '2026-10-17T14:00:00Z', '2026-10-17T14:00:00Z'),
+  (118, 8, 5, 'Mesinha de Cabeceira', 'Mesinha com uma gaveta.', 'doacao', NULL, 'usado', 'Portaria', 'ativo', '2026-10-18T14:00:00Z', '2026-10-18T14:00:00Z'),
+  (119, 9, 5, 'Painel de Fotos', 'Painel para 6 fotos.', 'doacao', NULL, 'usado', 'Cantina', 'ativo', '2026-10-19T14:00:00Z', '2026-10-19T14:00:00Z'),
+  (120, 10, 5, 'Caixa Organizadora', 'Caixa plástica grande.', 'doacao', NULL, 'usado', 'Biblioteca', 'ativo', '2026-10-20T14:00:00Z', '2026-10-20T14:00:00Z'),
+  -- Utensílios (Cat 6)
+  (121, 11, 6, 'Xícaras', 'Jogo com 2 xícaras.', 'doacao', NULL, 'usado', 'Cantina', 'ativo', '2026-10-11T15:00:00Z', '2026-10-11T15:00:00Z'),
+  (122, 1, 6, 'Tábua de Corte', 'Tábua de plástico.', 'doacao', NULL, 'usado', 'Cantina', 'ativo', '2026-10-12T15:00:00Z', '2026-10-12T15:00:00Z'),
+  (123, 2, 6, 'Faqueiro', 'Jogo de garfos e facas.', 'doacao', NULL, 'usado', 'Biblioteca', 'ativo', '2026-10-13T15:00:00Z', '2026-10-13T15:00:00Z'),
+  (124, 3, 6, 'Assadeira', 'Assadeira de vidro.', 'doacao', NULL, 'usado', 'Portaria', 'ativo', '2026-10-14T15:00:00Z', '2026-10-14T15:00:00Z'),
+  (125, 4, 6, 'Ralador', 'Ralador de queijo.', 'doacao', NULL, 'usado', 'Cantina', 'ativo', '2026-10-15T15:00:00Z', '2026-10-15T15:00:00Z'),
+  (126, 5, 6, 'Escorredor de Pratos', 'Escorredor de plástico.', 'doacao', NULL, 'usado', 'Cantina', 'ativo', '2026-10-16T15:00:00Z', '2026-10-16T15:00:00Z'),
+  (127, 6, 6, 'Forma de Bolo', 'Forma redonda de alumínio.', 'doacao', NULL, 'usado', 'Biblioteca', 'ativo', '2026-10-17T15:00:00Z', '2026-10-17T15:00:00Z'),
+  (128, 7, 6, 'Concha', 'Concha de sopa.', 'doacao', NULL, 'usado', 'Portaria', 'ativo', '2026-10-18T15:00:00Z', '2026-10-18T15:00:00Z'),
+  (129, 8, 6, 'Saca-rolhas', 'Abridor de garrafas.', 'doacao', NULL, 'usado', 'Cantina', 'ativo', '2026-10-19T15:00:00Z', '2026-10-19T15:00:00Z'),
+  (130, 9, 6, 'Tigelas', 'Conjunto de 4 tigelas.', 'doacao', NULL, 'usado', 'Cantina', 'ativo', '2026-10-20T15:00:00Z', '2026-10-20T15:00:00Z'),
+  -- Artesanato (Cat 7)
+  (131, 10, 7, 'Cartões Artesanais', 'Lote com 5 cartões.', 'doacao', NULL, 'novo', 'Biblioteca', 'ativo', '2026-10-11T16:00:00Z', '2026-10-11T16:00:00Z'),
+  (132, 11, 7, 'Potes Decorados', 'Pote de vidro pintado.', 'doacao', NULL, 'novo', 'Cantina', 'ativo', '2026-10-12T16:00:00Z', '2026-10-12T16:00:00Z'),
+  (133, 1, 7, 'Laço de Cabelo', 'Laço de fita.', 'doacao', NULL, 'novo', 'Bloco de Informática', 'ativo', '2026-10-13T16:00:00Z', '2026-10-13T16:00:00Z'),
+  (134, 2, 7, 'Chaveiro de Feltro', 'Chaveiro fofinho.', 'doacao', NULL, 'novo', 'Cantina', 'ativo', '2026-10-14T16:00:00Z', '2026-10-14T16:00:00Z'),
+  (135, 3, 7, 'Mini Vaso', 'Vaso pequeno para suculenta.', 'doacao', NULL, 'novo', 'Portaria', 'ativo', '2026-10-15T16:00:00Z', '2026-10-15T16:00:00Z'),
+  (136, 4, 7, 'Brinco de Cerâmica', 'Brinco artesanal.', 'doacao', NULL, 'novo', 'Biblioteca', 'ativo', '2026-10-16T16:00:00Z', '2026-10-16T16:00:00Z'),
+  (137, 5, 7, 'Caderneta', 'Caderneta pequena com capa de papel.', 'doacao', NULL, 'novo', 'Cantina', 'ativo', '2026-10-17T16:00:00Z', '2026-10-17T16:00:00Z'),
+  (138, 6, 7, 'Porta-canetas', 'Porta-canetas de lata decorada.', 'doacao', NULL, 'novo', 'Portaria', 'ativo', '2026-10-18T16:00:00Z', '2026-10-18T16:00:00Z'),
+  (139, 7, 7, 'Guirlanda', 'Guirlanda de tecido.', 'doacao', NULL, 'novo', 'Cantina', 'ativo', '2026-10-19T16:00:00Z', '2026-10-19T16:00:00Z'),
+  (140, 8, 7, 'Filtro dos Sonhos', 'Filtro pequeno.', 'doacao', NULL, 'novo', 'Biblioteca', 'ativo', '2026-10-20T16:00:00Z', '2026-10-20T16:00:00Z');
+
+-- Fotos (Reutilizando as imagens existentes de forma cíclica)
 INSERT INTO anuncio_foto (anuncio_id, chave, ordem, capa) VALUES
+  -- Anúncios 1-18 (Mantém as originais)
   (1,  'carga/anuncio-01-1.jpg', 0, 1), (1,  'carga/anuncio-01-2.jpg', 1, 0),
   (2,  'carga/anuncio-02-1.jpg', 0, 1),
   (3,  'carga/anuncio-03-1.jpg', 0, 1), (3,  'carga/anuncio-03-2.jpg', 1, 0),
@@ -81,4 +213,66 @@ INSERT INTO anuncio_foto (anuncio_id, chave, ordem, capa) VALUES
   (15, 'carga/anuncio-15-1.jpg', 0, 1),
   (16, 'carga/anuncio-16-1.jpg', 0, 1),
   (17, 'carga/anuncio-17-1.jpg', 0, 1),
-  (18, 'carga/anuncio-18-1.jpg', 0, 1), (18, 'carga/anuncio-18-2.jpg', 1, 0);
+  (18, 'carga/anuncio-18-1.jpg', 0, 1), (18, 'carga/anuncio-18-2.jpg', 1, 0),
+  -- Anúncios 19 ao 140 (Apontando para imagem inexistente para acionar o Placeholder no Frontend)
+  (19, 'carga/sem-imagem.jpg', 0, 1), (20, 'carga/sem-imagem.jpg', 0, 1),
+  (21, 'carga/sem-imagem.jpg', 0, 1), (22, 'carga/sem-imagem.jpg', 0, 1),
+  (23, 'carga/sem-imagem.jpg', 0, 1), (24, 'carga/sem-imagem.jpg', 0, 1),
+  (25, 'carga/sem-imagem.jpg', 0, 1), (26, 'carga/sem-imagem.jpg', 0, 1),
+  (27, 'carga/sem-imagem.jpg', 0, 1), (28, 'carga/sem-imagem.jpg', 0, 1),
+  (29, 'carga/sem-imagem.jpg', 0, 1), (30, 'carga/sem-imagem.jpg', 0, 1),
+  (31, 'carga/sem-imagem.jpg', 0, 1), (32, 'carga/sem-imagem.jpg', 0, 1),
+  (33, 'carga/sem-imagem.jpg', 0, 1), (34, 'carga/sem-imagem.jpg', 0, 1),
+  (35, 'carga/sem-imagem.jpg', 0, 1), (36, 'carga/sem-imagem.jpg', 0, 1),
+  (37, 'carga/sem-imagem.jpg', 0, 1), (38, 'carga/sem-imagem.jpg', 0, 1),
+  (39, 'carga/sem-imagem.jpg', 0, 1), (40, 'carga/sem-imagem.jpg', 0, 1),
+  (41, 'carga/sem-imagem.jpg', 0, 1), (42, 'carga/sem-imagem.jpg', 0, 1),
+  (43, 'carga/sem-imagem.jpg', 0, 1), (44, 'carga/sem-imagem.jpg', 0, 1),
+  (45, 'carga/sem-imagem.jpg', 0, 1), (46, 'carga/sem-imagem.jpg', 0, 1),
+  (47, 'carga/sem-imagem.jpg', 0, 1), (48, 'carga/sem-imagem.jpg', 0, 1),
+  (49, 'carga/sem-imagem.jpg', 0, 1), (50, 'carga/sem-imagem.jpg', 0, 1),
+  (51, 'carga/sem-imagem.jpg', 0, 1), (52, 'carga/sem-imagem.jpg', 0, 1),
+  (53, 'carga/sem-imagem.jpg', 0, 1), (54, 'carga/sem-imagem.jpg', 0, 1),
+  (55, 'carga/sem-imagem.jpg', 0, 1), (56, 'carga/sem-imagem.jpg', 0, 1),
+  (57, 'carga/sem-imagem.jpg', 0, 1), (58, 'carga/sem-imagem.jpg', 0, 1),
+  (59, 'carga/sem-imagem.jpg', 0, 1), (60, 'carga/sem-imagem.jpg', 0, 1),
+  (61, 'carga/sem-imagem.jpg', 0, 1), (62, 'carga/sem-imagem.jpg', 0, 1),
+  (63, 'carga/sem-imagem.jpg', 0, 1), (64, 'carga/sem-imagem.jpg', 0, 1),
+  (65, 'carga/sem-imagem.jpg', 0, 1), (66, 'carga/sem-imagem.jpg', 0, 1),
+  (67, 'carga/sem-imagem.jpg', 0, 1), (68, 'carga/sem-imagem.jpg', 0, 1),
+  (69, 'carga/sem-imagem.jpg', 0, 1), (70, 'carga/sem-imagem.jpg', 0, 1),
+  (71, 'carga/sem-imagem.jpg', 0, 1), (72, 'carga/sem-imagem.jpg', 0, 1),
+  (73, 'carga/sem-imagem.jpg', 0, 1), (74, 'carga/sem-imagem.jpg', 0, 1),
+  (75, 'carga/sem-imagem.jpg', 0, 1), (76, 'carga/sem-imagem.jpg', 0, 1),
+  (77, 'carga/sem-imagem.jpg', 0, 1), (78, 'carga/sem-imagem.jpg', 0, 1),
+  (79, 'carga/sem-imagem.jpg', 0, 1), (80, 'carga/sem-imagem.jpg', 0, 1),
+  (81, 'carga/sem-imagem.jpg', 0, 1), (82, 'carga/sem-imagem.jpg', 0, 1),
+  (83, 'carga/sem-imagem.jpg', 0, 1), (84, 'carga/sem-imagem.jpg', 0, 1),
+  (85, 'carga/sem-imagem.jpg', 0, 1), (86, 'carga/sem-imagem.jpg', 0, 1),
+  (87, 'carga/sem-imagem.jpg', 0, 1), (88, 'carga/sem-imagem.jpg', 0, 1),
+  (89, 'carga/sem-imagem.jpg', 0, 1), (90, 'carga/sem-imagem.jpg', 0, 1),
+  (91, 'carga/sem-imagem.jpg', 0, 1), (92, 'carga/sem-imagem.jpg', 0, 1),
+  (93, 'carga/sem-imagem.jpg', 0, 1), (94, 'carga/sem-imagem.jpg', 0, 1),
+  (95, 'carga/sem-imagem.jpg', 0, 1), (96, 'carga/sem-imagem.jpg', 0, 1),
+  (97, 'carga/sem-imagem.jpg', 0, 1), (98, 'carga/sem-imagem.jpg', 0, 1),
+  (99, 'carga/sem-imagem.jpg', 0, 1), (100, 'carga/sem-imagem.jpg', 0, 1),
+  (101, 'carga/sem-imagem.jpg', 0, 1), (102, 'carga/sem-imagem.jpg', 0, 1),
+  (103, 'carga/sem-imagem.jpg', 0, 1), (104, 'carga/sem-imagem.jpg', 0, 1),
+  (105, 'carga/sem-imagem.jpg', 0, 1), (106, 'carga/sem-imagem.jpg', 0, 1),
+  (107, 'carga/sem-imagem.jpg', 0, 1), (108, 'carga/sem-imagem.jpg', 0, 1),
+  (109, 'carga/sem-imagem.jpg', 0, 1), (110, 'carga/sem-imagem.jpg', 0, 1),
+  (111, 'carga/sem-imagem.jpg', 0, 1), (112, 'carga/sem-imagem.jpg', 0, 1),
+  (113, 'carga/sem-imagem.jpg', 0, 1), (114, 'carga/sem-imagem.jpg', 0, 1),
+  (115, 'carga/sem-imagem.jpg', 0, 1), (116, 'carga/sem-imagem.jpg', 0, 1),
+  (117, 'carga/sem-imagem.jpg', 0, 1), (118, 'carga/sem-imagem.jpg', 0, 1),
+  (119, 'carga/sem-imagem.jpg', 0, 1), (120, 'carga/sem-imagem.jpg', 0, 1),
+  (121, 'carga/sem-imagem.jpg', 0, 1), (122, 'carga/sem-imagem.jpg', 0, 1),
+  (123, 'carga/sem-imagem.jpg', 0, 1), (124, 'carga/sem-imagem.jpg', 0, 1),
+  (125, 'carga/sem-imagem.jpg', 0, 1), (126, 'carga/sem-imagem.jpg', 0, 1),
+  (127, 'carga/sem-imagem.jpg', 0, 1), (128, 'carga/sem-imagem.jpg', 0, 1),
+  (129, 'carga/sem-imagem.jpg', 0, 1), (130, 'carga/sem-imagem.jpg', 0, 1),
+  (131, 'carga/sem-imagem.jpg', 0, 1), (132, 'carga/sem-imagem.jpg', 0, 1),
+  (133, 'carga/sem-imagem.jpg', 0, 1), (134, 'carga/sem-imagem.jpg', 0, 1),
+  (135, 'carga/sem-imagem.jpg', 0, 1), (136, 'carga/sem-imagem.jpg', 0, 1),
+  (137, 'carga/sem-imagem.jpg', 0, 1), (138, 'carga/sem-imagem.jpg', 0, 1),
+  (139, 'carga/sem-imagem.jpg', 0, 1), (140, 'carga/sem-imagem.jpg', 0, 1);

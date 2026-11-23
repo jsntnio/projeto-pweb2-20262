@@ -33,7 +33,7 @@ export function Cadastro() {
 
     useEffect(() => {
         cursosApi.listar()
-            .then(setCursos)
+            .then((dados) => setCursos(dados || []))
             .catch(() => console.error('Erro ao carregar cursos'))
             .finally(() => setCarregandoCursos(false))
     }, [])

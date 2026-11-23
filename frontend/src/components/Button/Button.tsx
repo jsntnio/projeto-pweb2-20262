@@ -1,5 +1,5 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react'
-import { LuLoader } from 'react-icons/lu'
+import { Loading } from '../Loading'
 import styles from './Button.module.css'
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -35,8 +35,7 @@ export function Button({
         >
             {isLoading ? (
                 <>
-                    <LuLoader className={styles.spinner} size={20} />
-                    Carregando...
+                    <Loading size="sm" color="white" />
                 </>
             ) : (
                 children

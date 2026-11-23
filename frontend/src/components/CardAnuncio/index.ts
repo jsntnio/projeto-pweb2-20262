@@ -1,0 +1,1 @@
+export { CardAnuncio } from './CardAnuncio'
