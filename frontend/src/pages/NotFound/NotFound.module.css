@@ -1,0 +1,110 @@
+.container {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: var(--color-bg);
+    padding: var(--space-6) var(--space-4);
+}
+
+.iconWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    background-color: var(--color-primary-light);
+    color: var(--color-primary-hover);
+    border-radius: var(--radius-full);
+    margin-bottom: var(--space-4);
+}
+
+.iconWrapper svg {
+    width: 40px;
+    height: 40px;
+}
+
+.title {
+    font-size: 4rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary);
+    line-height: 1;
+    margin-bottom: var(--space-2);
+}
+
+.subtitle {
+    font-size: var(--font-size-xl);
+    color: var(--color-dark);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--space-3);
+}
+
+.description {
+    font-size: var(--font-size-base);
+    color: var(--color-dark-soft);
+    max-width: 90%;
+    margin-bottom: var(--space-6);
+    line-height: 1.5;
+}
+
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-primary);
+    color: var(--color-surface);
+    width: 100%;
+    max-width: 320px;
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--radius-full);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-base);
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    box-shadow: var(--shadow-sm);
+}
+
+.button:hover {
+    background-color: var(--color-primary-hover);
+}
+
+.button:active {
+    transform: scale(0.98);
+}
+
+@media (min-width: 768px) {
+    .iconWrapper {
+        width: 120px;
+        height: 120px;
+        margin-bottom: var(--space-6);
+    }
+
+    .iconWrapper svg {
+        width: 64px;
+        height: 64px;
+    }
+
+    .title {
+        font-size: 6rem;
+        margin-bottom: var(--space-2);
+    }
+
+    .subtitle {
+        font-size: var(--font-size-2xl);
+        margin-bottom: var(--space-4);
+    }
+
+    .description {
+        max-width: 480px;
+        margin-bottom: var(--space-8);
+        font-size: var(--font-size-lg);
+    }
+
+    .button {
+        width: auto;
+        max-width: none;
+        padding: var(--space-4) var(--space-8);
+    }
+}

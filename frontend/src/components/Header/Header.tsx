@@ -2,8 +2,7 @@ import { useState } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { LuLogOut, LuMenu, LuX, LuPlus } from 'react-icons/lu'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { logout } from '../../features/auth/authSlice'
-import { clearToken } from '../../api/client'
+import { logoutThunk } from '../../features/auth/authThunks'
 import styles from './Header.module.css'
 
 export function Header() {
@@ -17,8 +16,7 @@ export function Header() {
   }
 
   function handleLogout() {
-    dispatch(logout())
-    clearToken()
+    dispatch(logoutThunk())
     navigate('/login', { replace: true })
   }
 

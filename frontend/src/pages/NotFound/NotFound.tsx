@@ -1,29 +1,22 @@
 import { Link } from 'react-router-dom'
+import { LuSearchX } from 'react-icons/lu'
+import styles from './NotFound.module.css'
 
 export function NotFound() {
     return (
-        <div style={{ textAlign: 'center', padding: 'var(--space-8)' }}>
-            <h1>Página não encontrada</h1>
-            <p
-                style={{
-                    color: 'var(--color-dark-soft)',
-                    marginTop: 'var(--space-3)',
-                }}
-            >
-                O endereço que você tentou acessar não existe.
+        <div className={styles.container}>
+            <div className={styles.iconWrapper}>
+                <LuSearchX size={64} strokeWidth={1.5} />
+            </div>
+
+            <h1 className={styles.title}>404</h1>
+            <h2 className={styles.subtitle}>Página não encontrada</h2>
+
+            <p className={styles.description}>
+                Ops! O link que você acessou pode estar quebrado ou o anúncio que você procura pode ter sido removido.
             </p>
-            <Link
-                to="/vendas"
-                style={{
-                    display: 'inline-block',
-                    marginTop: 'var(--space-5)',
-                    padding: 'var(--space-3) var(--space-5)',
-                    backgroundColor: 'var(--color-primary)',
-                    color: 'var(--color-surface)',
-                    borderRadius: 'var(--radius-md)',
-                    fontWeight: 'var(--font-weight-medium)',
-                }}
-            >
+
+            <Link to="/vendas" className={styles.button}>
                 Voltar para vendas
             </Link>
         </div>

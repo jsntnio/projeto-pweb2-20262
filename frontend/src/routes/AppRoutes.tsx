@@ -30,8 +30,8 @@ export function AppRoutes() {
                     <Route path="/perfil" element={<Perfil />} />
                     <Route path="/perfil/editar" element={<PerfilEditar />} />
                     <Route path="/usuarios/:id" element={<UsuarioDetalhe />} />
-                    <Route path="*" element={<NotFound />} />
                 </Route>
+                <Route path="*" element={<NotFound />} />
             </Route>
         </Routes>
     )
