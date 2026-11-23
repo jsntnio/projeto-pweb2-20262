@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from './app/hooks'
 import { restaurarSessaoThunk } from './features/auth/authThunks'
 import { AppRoutes } from './routes/AppRoutes'
+import { Loading } from './components/Loading'
 
 export default function App() {
   const dispatch = useAppDispatch()
@@ -12,11 +13,7 @@ export default function App() {
   }, [dispatch])
 
   if (restaurandoSessao) {
-    return (
-      <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'var(--color-bg)' }}>
-        <p style={{ color: 'var(--color-primary)', fontWeight: 'bold' }}>Carregando...</p>
-      </div>
-    )
+    return <Loading fullPage />
   }
 
   return <AppRoutes />
